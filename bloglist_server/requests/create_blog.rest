@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+  "title": "How to make joulutorttu",
+  "author": "Jouko Mälkönen",
+  "url": "www.torttubest.com",
+  "likes": 3,
+  "user": "639a2ae00ec84bcaff93a88c"
+}
