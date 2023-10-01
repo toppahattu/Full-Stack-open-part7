@@ -1,25 +1,32 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogsReducer'
+import Comments from './Comments'
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const loggedUser = useSelector(state => state.user)
-  console.log(blog)
   if (!blog) {
     return null
   }
 
   const handleLike = async (blog) => {
-    dispatch(likeBlog(blog))
+    const likedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+      user: blog.user.id
+    }
+    dispatch(likeBlog(likedBlog))
   }
+
   const handleRemove = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       dispatch(removeBlog(blog))
       navigate('/blogs')
     }
   }
+
   const buttonStyle = {
     backgroundColor: '#318ce7',
   }
@@ -39,6 +46,7 @@ const BlogDetails = ({ blog }) => {
         <div>
           added by {blog.user.name}
         </div>
+        <Comments blog={blog} />
         {blog.user.username === loggedUser.username && <button
           id="removeBlog"
           onClick={() => handleRemove(blog)}

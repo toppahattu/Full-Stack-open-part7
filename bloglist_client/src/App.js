@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, Route, Routes, useMatch } from 'react-router-dom'
+import { Navbar, Nav } from 'react-bootstrap'
 import Blogs from './components/Blogs'
 import BlogDetails from './components/BlogDetails'
 import LoginForm from './components/LoginForm'
@@ -8,7 +10,6 @@ import blogService from './services/blogs'
 import { fetchAllBlogs } from './reducers/blogsReducer'
 import { fetchAllUsers } from './reducers/usersReducer'
 import { setUser } from './reducers/userReducer'
-import { Link, Route, Routes, useMatch } from 'react-router-dom'
 import Users from './components/Users'
 import User from './components/User'
 import Home from './components/Home'
@@ -29,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchAllUsers())
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -49,24 +50,31 @@ const App = () => {
     padding: 5
   }
 
-  const navbar = {
-    backgroundColor: 'silver',
-  }
-
   return (
-    <div>
+    <div className="container">
       {loggedUser === null ? (
         <LoginForm />
       ) : (
         <div>
-          <div style={navbar}>
-            <Link style={padding} to="/blogs">notes</Link>
-            <Link style={padding} to="/users">users</Link>
-            <em>
-              {loggedUser.name} logged in {' '}
-            </em>
-            <button onClick={handleLogout}>logout</button>
-          </div>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/blogs">blogs</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/users">users</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  <em>
+                    {loggedUser.name} logged in {' '}
+                  </em>
+                  <button onClick={handleLogout}>logout</button>
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
           <h2>blogs</h2>
           <Notification />
           <Routes>

@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
 import Togglable from './Togglable'
 import { createBlog } from '../reducers/blogsReducer'
 import { setNotification } from '../reducers/notificationReducer'
+
 
 const BlogForm = () => {
   const [newTitle, setNewTitle] = useState('')
@@ -35,38 +37,39 @@ const BlogForm = () => {
   return (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
       <h2>create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
+      <Form onSubmit={addBlog}>
+        <Form.Group>
+          <Form.Label htmlFor="inputTitle" >title: </Form.Label>
+          <Form.Control
+            id="inputTitle"
             className="inputTitle"
             type="text"
             value={newTitle}
             onChange={({ target }) => setNewTitle(target.value)}
           />
-        </div>
-        <div>
-          author:
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="inputAuthor" >author: </Form.Label>
+          <Form.Control
+            id="inputAuthor"
             className="inputAuthor"
             type="text"
             value={newAuthor}
             onChange={({ target }) => setNewAuthor(target.value)}
           />
-        </div>
-        <div>
-          url:
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="inputUrl" >url: </Form.Label>
+          <Form.Control
+            id="inputUrl"
             className="inputUrl"
             type="text"
             value={newUrl}
             onChange={({ target }) => setNewUrl(target.value)}
           />
-        </div>
-        <button id="blogSubmit" type="submit">
-          create
-        </button>
-      </form>
+        </Form.Group>
+        <Button variant="primary" type="submit">create</Button>
+      </Form>
     </Togglable>
   )
 }
